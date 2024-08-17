@@ -11,6 +11,13 @@ class RunConfig(BaseModel):
     port: int = 8000
 
 
+class CORSConfig(BaseModel):
+    allow_origins: list = ["http://localhost:3000"]
+    allow_credentials: bool = True
+    allow_methods: list = ["*"]
+    allow_headers: list = ["*"]
+
+
 class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"
     auth: str = "/auth"
@@ -61,6 +68,7 @@ class Settings(BaseSettings):
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
     access_token: AccessToken
+    cors: CORSConfig = CORSConfig()
 
 
 settings = Settings()

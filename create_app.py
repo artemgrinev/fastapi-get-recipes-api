@@ -9,7 +9,9 @@ from fastapi.openapi.docs import (
 )
 from fastapi.responses import ORJSONResponse
 
+
 from core.models import db_helper
+
 
 
 @asynccontextmanager
@@ -55,4 +57,5 @@ def create_app(
     )
     if create_custom_static_urls:
         register_static_docs_routes(app)
+
     return app
