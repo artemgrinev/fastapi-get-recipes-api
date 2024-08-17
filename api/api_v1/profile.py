@@ -9,6 +9,6 @@ from core.schemas.profile import (
 )
 
 router = APIRouter(
-    prefix=settings.api.v1.auth,
+    prefix=settings.api.v1.profile,
     tags=["Profile"],
 )

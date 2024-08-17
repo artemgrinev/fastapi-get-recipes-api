@@ -7,6 +7,6 @@ from core.schemas.recipes import (
 )
 
 router = APIRouter(
-    prefix=settings.api.v1.auth,
+    prefix=settings.api.v1.recipes,
     tags=["Recipes"],
 )

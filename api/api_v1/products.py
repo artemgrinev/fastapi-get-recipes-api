@@ -7,7 +7,7 @@ from core.schemas.product import (
 )
 
 router = APIRouter(
-    prefix=settings.api.v1.auth,
+    prefix=settings.api.v1.product,
     tags=["Product"],
 )
 
