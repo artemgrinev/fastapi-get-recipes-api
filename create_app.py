@@ -10,8 +10,7 @@ from fastapi.openapi.docs import (
 from fastapi.responses import ORJSONResponse
 
 
-from core.models import db_helper
-
+from core.db.db_helper import db_helper
 
 
 @asynccontextmanager
