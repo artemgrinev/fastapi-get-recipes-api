@@ -4,7 +4,7 @@ from schemas.profile import (
 )
 
 from services.base_services import BaseServices
-from ..repositories.profile import profile_repositories
+from repositories.profile import profile_repositories
 
 
 class ProfileServices(BaseServices):
