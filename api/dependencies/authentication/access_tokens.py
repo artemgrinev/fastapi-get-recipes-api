@@ -5,8 +5,8 @@ from typing import (
 
 from fastapi import Depends
 
-from core.models import (
-    db_helper,
+from core.db.db_helper import db_helper
+from models import (
     AccessToken
 )
 
