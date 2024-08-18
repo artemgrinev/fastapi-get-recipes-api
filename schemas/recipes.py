@@ -1,36 +1,50 @@
-from datetime import datetime
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel, HttpUrl
 
+from schemas import (
+    RecipeCategory,
+    ProductRead,
+    Meta,
+    Autor,
+)
 
-class Review(BaseModel):
-    rating: int
-    comment: str
-    date: datetime
-    reviewerName: str
 
-
-class Recipe(BaseModel):
-    id: int
+class RecipeBase(BaseModel):
     name: str
-    ingredients: List[str]
-    instructions: List[str]
+    ingredients: List[ProductRead]
+    cuisine: str
+    category: List[RecipeCategory]
+    autor: Autor
     prepTimeMinutes: int
     cookTimeMinutes: int
-    servings: int
-    difficulty: str
-    cuisine: str
     caloriesPerServing: int
-    tags: List[str]
-    userId: int
     image: HttpUrl
-    rating: float
     reviewCount: int
-    mealType: List[str]
+
+
+class RecipeCreate(RecipeBase):
+    pass
+
+
+class RecipeRead(RecipeBase):
+    id: int
+    rating: float
+    meta: Meta
+
+    class Config:
+        orm_mode = True
+
+
+class RecipeUpdate(RecipeBase):
+    pass
+
+
+class RecipeDelete(RecipeBase):
+    pass
 
 
 class RecipeResponse(BaseModel):
-    recipes: List[Recipe]
+    recipes: List[RecipeRead]
     total: int
     skip: int
     limit: int

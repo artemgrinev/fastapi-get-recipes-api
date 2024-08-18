@@ -1,38 +1,26 @@
 from typing import List
 from pydantic import BaseModel
-from datetime import datetime
+from schemas import Meta
 
 
-class Dimensions(BaseModel):
-    width: float
-    height: float
-    depth: float
-
-
-class Meta(BaseModel):
-    createdAt: datetime
-    updatedAt: datetime
-
-
-class ProductRead(BaseModel):
-    id: int
+class ProductBase(BaseModel):
     title: str
     description: str
     category: str
+    brand: str
+    store: str
     price: float
     discountPercentage: float
-    rating: float
-    tags: List[str]
-    brand: str
     weight: float
-    dimensions: Dimensions
+    minimumOrderQuantity: int
     shippingInformation: str
     availabilityStatus: str
-    returnPolicy: str
-    minimumOrderQuantity: int
+    images_url: str
+
+
+class ProductRead(ProductBase):
+    id: int
     meta: Meta
-    thumbnail: str
-    images: List[str]
 
 
 class ProductsResponse(BaseModel):
