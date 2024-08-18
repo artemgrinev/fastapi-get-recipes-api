@@ -8,11 +8,15 @@ from starlette.status import (
     HTTP_400_BAD_REQUEST
 )
 
+from api.dependencies.authentication.users import current_user
 from core.config import settings
+from models import User
 from schemas import (
     ProfileCreate,
+    ProfileRead,
     ProfileUpdate
 )
+from services.profile import profile_service
 
 router = APIRouter(
     prefix=settings.api.v1.profile,
@@ -54,7 +58,7 @@ async def get_profile_by_id(
 async def create_profile(
         data: ProfileCreate,
         user: User = Depends(current_user),
-) -> ProfileResponse:
+) -> ProfileRead:
     data.user_pk = user.id
     try:
         return await profile_service.create(model=data)
@@ -66,7 +70,7 @@ async def create_profile(
 async def update_profile(
         data: ProfileUpdate,
         user: User = Depends(current_user),
-) -> ProfileResponse:
+) -> ProfileRead:
     user_id = user.id
     try:
         return await profile_service.get_profile_by_user_id(pk=user_id, model=data)
