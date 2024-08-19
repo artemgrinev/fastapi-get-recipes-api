@@ -31,9 +31,6 @@ class RecipeRead(RecipeBase):
     rating: float
     meta: Meta
 
-    class Config:
-        orm_mode = True
-
 
 class RecipeUpdate(RecipeBase):
     pass

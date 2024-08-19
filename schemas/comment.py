@@ -8,9 +8,6 @@ class CommentBase(BaseModel):
 class CommentRead(BaseModel):
     id: int
 
-    class Config:
-        orm_mode = True
-
 
 class CommentCreate(BaseModel):
     pass

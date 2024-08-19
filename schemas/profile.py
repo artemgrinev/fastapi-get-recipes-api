@@ -12,9 +12,6 @@ class ProfileRead(BaseModel):
     created_at: Optional[datetime.datetime]
     updated_at: Optional[datetime.datetime]
 
-    class Config:
-        orm_mode = True
-
 
 class ProfileCreate(BaseModel):
     first_name: str

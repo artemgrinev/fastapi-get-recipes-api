@@ -42,4 +42,4 @@ from .recipes import (
     RecipeUpdate,
     RecipeDelete
 )
-from review import Review
+from .review import Review
