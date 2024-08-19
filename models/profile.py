@@ -24,12 +24,12 @@ if TYPE_CHECKING:
 
 
 class Profile(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
-    user: Mapped["User"] = relationship(back_populates="profiles")
+    user: Mapped["User"] = relationship(back_populates="profile")
     user_pk: Mapped[int] = mapped_column(ForeignKey("users.id"), unique=True)
     last_name: Mapped[str | None] = mapped_column(String(40))
     first_name: Mapped[str | None] = mapped_column(String(40), nullable=True)
     birthdate: Mapped[datetime.date] = mapped_column(Date)
 
-    recipes = relationship("Recipe", back_populates="profiles")
-    comments = relationship("Comment", back_populates="profiles")
+    recipes = relationship("Recipe", back_populates="profile")
+    comments = relationship("Comment", back_populates="profile")
 

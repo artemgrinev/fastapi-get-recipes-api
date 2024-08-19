@@ -21,7 +21,7 @@ class Recipe(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     ingredients: Mapped["Product"] = relationship(
         "Product",
         secondary="recipe_product_associations",
-        back_populates="ingredients"
+        back_populates="recipes"
     )
     instructions: Mapped[str] = mapped_column(String)
     prep_time_minutes: Mapped[int] = mapped_column(Integer)
@@ -30,10 +30,10 @@ class Recipe(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     difficulty: Mapped[str] = mapped_column(String)
     cuisine: Mapped[str] = mapped_column(String)
     calories_per_serving: Mapped[int] = mapped_column(Integer)
-    tags: Mapped["RecipesCategory"] = relationship(
+    category: Mapped["RecipesCategory"] = relationship(
         "RecipesCategory",
         secondary="recipe_category_associations",
-        back_populates="tags"
+        back_populates="recipes"
     )
     profile_id: Mapped[int] = mapped_column(Integer, ForeignKey("profiles.id"))
     image: Mapped[str] = mapped_column(String)

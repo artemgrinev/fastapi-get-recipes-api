@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class User(Base, IntIdPkMixin, SQLAlchemyBaseUserTable[int]):
-    profile: Mapped["Profile"] = relationship(back_populates="users", uselist=False)
+    profile: Mapped["Profile"] = relationship(back_populates="user", uselist=False)
 
     @classmethod
     def get_db(cls, session: "AsyncSession"):

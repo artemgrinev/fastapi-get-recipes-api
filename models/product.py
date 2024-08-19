@@ -29,4 +29,4 @@ class Product(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     images_url: Mapped[str] = mapped_column(String)
 
     category: Mapped["ProductCategory"] = relationship("ProductCategory", back_populates="products")
-    recipes = relationship("Recipe", secondary="recipe_product_association", back_populates="ingredients")
+    recipes = relationship("Recipe", secondary="recipe_product_associations", back_populates="ingredients")
