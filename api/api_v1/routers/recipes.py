@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException
 from starlette.status import HTTP_400_BAD_REQUEST
 
-from api.dependencies.authentication.users import current_user
+# from api.dependencies.authentication.users import current_user
 from core.config import settings
 from schemas import RecipeRead, RecipeCreate
 from services.recipe import recipe_service
@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=RecipeRead, status_code=status.HTTP_201_CREATED)
-async def create_recipe(recipe: RecipeCreate, user: Depends(current_user)):
+async def create_recipe(recipe: RecipeCreate):
     try:
         return await recipe_service.create(model=recipe)
     except Exception as e:
