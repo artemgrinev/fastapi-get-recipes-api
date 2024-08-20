@@ -23,8 +23,11 @@ class ProductRead(ProductBase):
     meta: Meta
 
 
+class ProductSearch(BaseModel):
+    name: str
+
+
 class ProductsResponse(BaseModel):
     products: List[ProductRead]
     total: int
-    skip: int
     limit: int

@@ -13,13 +13,13 @@ if TYPE_CHECKING:
 
 
 class Product(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
-    title: Mapped[str] = mapped_column(String)
+    title: Mapped[str] = mapped_column(String, index=True, nullable=False)
     description: Mapped[str] = mapped_column(String)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_categories.id"))
     price: Mapped[float] = mapped_column(Float)
     discountPercentage: Mapped[float] = mapped_column(Float)
     rating: Mapped[float] = mapped_column(Float)
-    brand: Mapped[str] = mapped_column(String)
+    brand: Mapped[str] = mapped_column(String, index=True)
     weight: Mapped[float] = mapped_column(Float)
     shippingInformation: Mapped[str] = mapped_column(String)
     availabilityStatus: Mapped[str] = mapped_column(String)

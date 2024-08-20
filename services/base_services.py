@@ -25,4 +25,4 @@ class BaseServices:
             limit: int,
             offset: int
     ) -> list[ModelType]:
-        await self.repository.get_multi(order=order, limit=limit, offset=offset)
+        return await self.repository.get_multi(order=order, limit=limit, offset=offset)

@@ -22,3 +22,7 @@ class AbstractRepository(ABC):
     @abstractmethod
     async def get_multi(self, **kwargs):
         raise NotImplementedError
+
+    @abstractmethod
+    async def search_by_name(self, **kwargs):
+        raise NotImplementedError

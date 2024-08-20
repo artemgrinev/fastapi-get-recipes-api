@@ -37,10 +37,8 @@ async def get_profile_by_id(
     try:
         profile = await profile_service.get(pk=profile_id)
         if profile is not None:
-            # logger.info(f"get profile by id: {profile.id}")
             return profile
         else:
-            # logger.info(f"profile {profile_id} not found")
             raise HTTPException(
                 status_code=404,
                 detail=f"Profile {profile_id} not found"

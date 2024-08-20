@@ -57,3 +57,20 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
             stmt = select(self.model).order_by(*order).limit(limit).offset(offset)
             row = await session.execute(stmt)
             return row.scalars().all()
+
+    async def search_by_name(
+            self,
+            q: str,
+            order: str = "id",
+            limit: int = 10,
+            offset: int = 0
+    ) -> list[ModelType]:
+        stmt = (
+                select(self.model)
+                .filter(self.model.title.ilike(f"%{q}%"))
+                .order_by(*order)
+                .limit(limit)
+                .offset(offset)
+                )
+        row = await self.session.execute(stmt)
+        return row.scalars().all()
