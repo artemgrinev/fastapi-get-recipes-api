@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
@@ -37,6 +38,23 @@ class DatabaseHelper:
         await self.engine.dispose()
 
     async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
+        async with self.session_factory() as session:
+            yield session
+
+    @asynccontextmanager
+    async def get_db_session(self):
+        from sqlalchemy import exc
+
+        session: AsyncSession = self.session_factory()
+        try:
+            yield session
+        except exc.SQLAlchemyError as error:
+            await session.rollback()
+            raise
+        finally:
+            await session.close()
+
+    async def get_async_session(self):
         async with self.session_factory() as session:
             yield session
 

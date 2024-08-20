@@ -1,5 +1,3 @@
-from typing import List
-
 from schemas.base_schemas import PyModel
 from repositories.base_repository import AbstractRepository
 from repositories.sqlalchemy_repository import ModelType
