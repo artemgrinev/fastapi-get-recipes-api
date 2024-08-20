@@ -11,7 +11,7 @@ from models.mixins import (
 )
 
 if TYPE_CHECKING:
-    from .recipes_category import RecipesCategory
+    from .recipe_category_association import RecipeCategoryAssociation
     from .product import Product
 
 
@@ -30,9 +30,8 @@ class Recipe(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     difficulty: Mapped[str] = mapped_column(String)
     cuisine: Mapped[str] = mapped_column(String)
     calories_per_serving: Mapped[int] = mapped_column(Integer)
-    category: Mapped["RecipesCategory"] = relationship(
-        "RecipesCategory",
-        secondary="recipe_category_associations",
+    categories: Mapped["RecipeCategoryAssociation"] = relationship(
+        "RecipeCategoryAssociation",
         back_populates="recipes"
     )
     profile_id: Mapped[int] = mapped_column(Integer, ForeignKey("profiles.id"))

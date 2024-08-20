@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 from sqlalchemy import (
     ForeignKey,
     String,
-    Date
+    Date,
+    Boolean
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -29,6 +30,7 @@ class Profile(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     last_name: Mapped[str | None] = mapped_column(String(40))
     first_name: Mapped[str | None] = mapped_column(String(40), nullable=True)
     birthdate: Mapped[datetime.date] = mapped_column(Date)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     recipes = relationship("Recipe", back_populates="profile")
     comments = relationship("Comment", back_populates="profile")

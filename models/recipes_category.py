@@ -7,15 +7,14 @@ from models import Base
 from models.mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
-    from .recipes import Recipe
+    from .recipe_category_association import RecipeCategoryAssociation
 
 
 class RecipesCategory(Base, IntIdPkMixin):
     __tablename__ = "recipes_categories"
     title: Mapped[str] = mapped_column(String, nullable=False)
-    recipes: Mapped["Recipe"] = relationship(
-        "Recipe",
-        secondary="recipe_category_associations",
-        back_populates="category"
+    recipes: Mapped["RecipeCategoryAssociation"] = relationship(
+        "RecipeCategoryAssociation",
+        back_populates="categories"
     )
 
