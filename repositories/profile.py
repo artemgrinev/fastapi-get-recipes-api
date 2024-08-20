@@ -10,6 +10,6 @@ class ProfileRepositories(SqlAlchemyRepository[ModelType, ProfileCreate, Profile
 
 
 profile_repositories = ProfileRepositories(
-    session=db_helper.session_getter,
+    session=db_helper.get_db_session,
     model=Profile
 )

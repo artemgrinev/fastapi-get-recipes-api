@@ -3,29 +3,30 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class ProfileRead(BaseModel):
-    id: int
-    user_pk: int
+class ProfileBase(BaseModel):
     first_name: str
     last_name: str
     birthdate: Optional[datetime.date]
+    is_active: bool = True
+
+
+class ProfileRead(ProfileBase):
+    id: int
     created_at: Optional[datetime.datetime]
     updated_at: Optional[datetime.datetime]
 
 
-class ProfileCreate(BaseModel):
-    first_name: str
-    last_name: str
-    birthdate: Optional[datetime.date]
+class ProfileCreate(ProfileBase):
+    user_pk: Optional[int]
+    created_at: Optional[datetime.datetime] = datetime.datetime.utcnow
+    updated_at: Optional[datetime.datetime] = datetime.datetime.utcnow
 
 
-class ProfileUpdate(BaseModel):
-    first_name: str
-    last_name: str
-    birthdate: Optional[datetime.date]
+class ProfileUpdate(ProfileBase):
+    pass
 
 
 class ProfileDelete(BaseModel):
     id: int
-    user_id: int
-    is_active: Optional[bool] = False
+
+
