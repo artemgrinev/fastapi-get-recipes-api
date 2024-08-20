@@ -1,19 +1,20 @@
-"""create products and recipes table
+"""create tables
 
-Revision ID: 0db52585b916
-Revises: f230c949ca2a
-Create Date: 2024-08-18 19:41:19.737607
+Revision ID: 67fd178b4ef4
+Revises: 
+Create Date: 2024-08-20 20:33:02.558258
 
 """
 from typing import Sequence, Union
 
+import fastapi_users_db_sqlalchemy
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0db52585b916'
-down_revision: Union[str, None] = 'f230c949ca2a'
+revision: str = '67fd178b4ef4'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -26,10 +27,28 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id', name=op.f('pk_product_categories'))
     )
     op.create_table('recipes_categories',
-    sa.Column('name', sa.String(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_recipes_categories'))
     )
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=320), nullable=False),
+    sa.Column('hashed_password', sa.String(length=1024), nullable=False),
+    sa.Column('is_active', sa.Boolean(), nullable=False),
+    sa.Column('is_superuser', sa.Boolean(), nullable=False),
+    sa.Column('is_verified', sa.Boolean(), nullable=False),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_users'))
+    )
+    op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
+    op.create_table('access_tokens',
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('token', sa.String(length=43), nullable=False),
+    sa.Column('created_at', fastapi_users_db_sqlalchemy.generics.TIMESTAMPAware(timezone=True), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_access_tokens_user_id_users'), ondelete='cascade'),
+    sa.PrimaryKeyConstraint('token', name=op.f('pk_access_tokens'))
+    )
+    op.create_index(op.f('ix_access_tokens_created_at'), 'access_tokens', ['created_at'], unique=False)
     op.create_table('products',
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
@@ -50,6 +69,18 @@ def upgrade() -> None:
     sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['category_id'], ['product_categories.id'], name=op.f('fk_products_category_id_product_categories')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_products'))
+    )
+    op.create_table('profiles',
+    sa.Column('user_pk', sa.Integer(), nullable=False),
+    sa.Column('last_name', sa.String(length=40), nullable=True),
+    sa.Column('first_name', sa.String(length=40), nullable=True),
+    sa.Column('birthdate', sa.Date(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('updated_at', sa.TIMESTAMP(timezone=True), nullable=False),
+    sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False),
+    sa.ForeignKeyConstraint(['user_pk'], ['users.id'], name=op.f('fk_profiles_user_pk_users')),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_profiles')),
+    sa.UniqueConstraint('user_pk', name=op.f('uq_profiles_user_pk'))
     )
     op.create_table('recipes',
     sa.Column('name', sa.String(), nullable=False),
@@ -110,7 +141,12 @@ def downgrade() -> None:
     op.drop_table('recipe_category_associations')
     op.drop_table('comments')
     op.drop_table('recipes')
+    op.drop_table('profiles')
     op.drop_table('products')
+    op.drop_index(op.f('ix_access_tokens_created_at'), table_name='access_tokens')
+    op.drop_table('access_tokens')
+    op.drop_index(op.f('ix_users_email'), table_name='users')
+    op.drop_table('users')
     op.drop_table('recipes_categories')
     op.drop_table('product_categories')
     # ### end Alembic commands ###
