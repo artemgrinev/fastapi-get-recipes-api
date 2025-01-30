@@ -13,15 +13,19 @@ from sqlalchemy.orm import (
     relationship
 )
 
-from .base import Base
-from .mixins import (
+from models import Base
+from models.mixins import (
     IntIdPkMixin,
     UpdateAtMixin,
     CreateAtMixin
 )
 
 if TYPE_CHECKING:
-    from .user import User
+    from models import (
+        User,
+        RecipeReview,
+        Recipe
+    )
 
 
 class Profile(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
@@ -32,6 +36,6 @@ class Profile(Base, IntIdPkMixin, UpdateAtMixin, CreateAtMixin):
     birthdate: Mapped[datetime.date] = mapped_column(Date)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    recipes = relationship("Recipe", back_populates="profile")
-    comments = relationship("Comment", back_populates="profile")
+    recipes: Mapped[list["Recipe"]] = relationship("Recipe", back_populates="profile")
+    reviews: Mapped[list["RecipeReview"]] = relationship("Reviews", back_populates="profile")
 
