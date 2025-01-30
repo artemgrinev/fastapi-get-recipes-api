@@ -2,7 +2,7 @@ from repositories.sqlalchemy_repository import ModelType, SqlAlchemyRepository
 
 from core.db.db_helper import db_helper
 from schemas import RecipeRead, RecipeUpdate
-from models import Profile
+from models import Recipe
 
 
 class RecipieRepositories(SqlAlchemyRepository[ModelType, RecipeRead, RecipeUpdate]):
@@ -11,5 +11,5 @@ class RecipieRepositories(SqlAlchemyRepository[ModelType, RecipeRead, RecipeUpda
 
 recipe_repositories = RecipieRepositories(
     session=db_helper.session_getter,
-    model=Profile
+    model=Recipe
 )
